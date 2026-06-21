@@ -20,7 +20,7 @@ document.addEventListener('click', (e) => {
     }, 2000);
 });
 
-// --- FUNCIÓN DE TRANSICIÓN FORZADA CON ESTRELLAS DESDE JS ---
+// --- TRANSICIÓN MEJORADA CON ALERTA DE TIEMPO ---
 function abrirSorpresa() {
     const portada = document.getElementById('pantalla-portada');
     const carta = document.getElementById('pantalla-carta');
@@ -32,43 +32,44 @@ function abrirSorpresa() {
 
         const tiposEstrellas = ['✨', '⭐', '🌟'];
 
-        // Disparar 35 estrellas fugaces con estilos inyectados directamente
+        // Generar las estrellas fugaces fijas en la pantalla crema
         for (let i = 0; i < 35; i++) {
             const estrella = document.createElement('div');
             
-            // Ajustamos todo el diseño visual desde aquí para que el CSS no lo bloquee
             estrella.innerText = tiposEstrellas[Math.floor(Math.random() * tiposEstrellas.length)];
             estrella.style.position = 'absolute';
-            estrella.style.fontSize = '35px';
+            estrella.style.fontSize = '40px'; // Un poco más grandes para que se noten bien
             estrella.style.userSelect = 'none';
             estrella.style.opacity = '0';
-            estrella.style.transition = 'all 1s ease-out';
+            estrella.style.transition = 'all 0.8s ease-out';
+            estrella.style.zIndex = '9999';
 
-            // Posiciones aleatorias en el lienzo crema
+            // Distribución por toda la pantalla
             estrella.style.left = (Math.random() * 80) + 'vw';
             estrella.style.top = (Math.random() * 60) + 'vh';
             
             capaEstrellas.appendChild(estrella);
 
-            // Retraso milimétrico para activar el movimiento diagonal forzado
+            // Forzar el movimiento diagonal
             setTimeout(() => {
                 estrella.style.opacity = '1';
-                estrella.style.transform = 'translate(350px, -250px) rotate(180deg) scale(1.3)';
-            }, Math.random() * 300); // Salen escalonadas en ráfaga
+                estrella.style.transform = 'translate(250px, -250px) scale(1.4)';
+            }, Math.random() * 200); 
         }
     }
 
-    // Esperamos 500 milisegundos a que cruce la ráfaga antes de cambiar de pantalla
-    setTimeout(() => {
-        if (portada) portada.style.display = 'none';
-        if (carta) carta.classList.add('mostrar');
-    }, 500);
+    // Alerta que congela el navegador un instante y le da tiempo al código de pintar la lluvia
+    alert("¡Mira el cielo! Te preparé algo especial... ✨");
 
-    // Limpiar por completo la animación al terminar
+    // Quitar la portada y mostrar la carta romántica
+    if (portada) portada.style.display = 'none';
+    if (carta) carta.classList.add('mostrar');
+
+    // Limpiar la pantalla después de un segundo
     setTimeout(() => {
         if (capaEstrellas) {
             capaEstrellas.style.display = 'none';
             capaEstrellas.innerHTML = '';
         }
-    }, 1600);
+    }, 1500);
 }
